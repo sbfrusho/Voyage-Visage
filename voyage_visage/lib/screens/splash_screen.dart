@@ -49,14 +49,14 @@ class _SplashScreenState extends State<SplashScreen> {
     // TODO: implement initState
     super.initState();
     final user = auth.currentUser;
-    if(user != null){
+    if(user == null){
       Timer(Duration(seconds: 3),(){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => OptionScreen()));
       });
     }
     else{
       Timer(Duration(seconds: 3),(){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>OptionScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
       });
     }
   }

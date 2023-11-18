@@ -11,6 +11,8 @@ class AddPost extends StatefulWidget {
 
 class _AddPostState extends State<AddPost> {
   File? image;
+  TextEditingController titelController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _AddPostState extends State<AddPost> {
                     width: MediaQuery.of(context).size.width,
                     child: image != null
                         ? ClipRRect(
-                              child: Image.file(
+                            child: Image.file(
                               image!.absolute,
                               width: 100,
                               height: 100,
@@ -52,8 +54,41 @@ class _AddPostState extends State<AddPost> {
                             ),
                           ),
                   ),
+                ),
+                SizedBox(height: 30,),
+                Form(
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        controller: titelController,
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          labelText: 'Title',
+                          hintText: 'Enter post title',
+                          border: OutlineInputBorder(),
+                          hintStyle: TextStyle(color: Colors.grey , fontWeight: FontWeight.normal),
+                          labelStyle: TextStyle(color: Colors.grey , fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                      SizedBox(height: 30,),
+                      TextFormField(
+                        controller: descriptionController,
+                        keyboardType: TextInputType.text,
+                        minLines: 1,
+                        maxLength: 5,
+                        decoration: InputDecoration(
+                          labelText: 'Description',
+                          hintText: 'Enter post Description',
+                          border: OutlineInputBorder(),
+                          hintStyle: TextStyle(color: Colors.grey , fontWeight: FontWeight.normal),
+                          labelStyle: TextStyle(color: Colors.grey , fontWeight: FontWeight.normal),
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               ],
+
             ),
           ),
         ),
