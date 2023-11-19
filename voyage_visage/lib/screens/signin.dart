@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:voyage_visage/components/round_button.dart';
+import 'package:voyage_visage/screens/login_screen.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({super.key});
@@ -105,6 +106,11 @@ class _SignInState extends State<SignIn> {
                                         setState(() {
                                           showSpinner = false;
                                         });
+                                        Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                LoginScreen()));
                                       }
                                     } catch (e) {
                                       print(e.toString());

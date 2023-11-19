@@ -36,95 +36,99 @@ class _LoginScreenState extends State<LoginScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  
-                  Text("Login" , style: TextStyle(fontWeight: FontWeight.bold , fontSize:35),),
+                  Text(
+                    "Login",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Form(
-                        key: _formKey,
-                        child: Column(
-                          
-                          children: [
-                            TextFormField(
-                              controller: textEditingControllerEmail,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                hintText: 'Email',
-                                labelText: 'Email',
-                                prefixIcon: Icon(Icons.email),
-                                border: OutlineInputBorder(),
-                              ),
-                              onChanged: (String value) {
-                                email = value;
-                              },
-                              validator: (value) {
-                                return value!.isEmpty ? 'Enter email' : null;
-                              },
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: textEditingControllerEmail,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              hintText: 'Email',
+                              labelText: 'Email',
+                              prefixIcon: Icon(Icons.email),
+                              border: OutlineInputBorder(),
                             ),
-                            const SizedBox(
-                              height: 20,
+                            onChanged: (String value) {
+                              email = value;
+                            },
+                            validator: (value) {
+                              return value!.isEmpty ? 'Enter email' : null;
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          TextFormField(
+                            controller: textEditingControllerPassword,
+                            keyboardType: TextInputType.visiblePassword,
+                            obscureText: true,
+                            decoration: const InputDecoration(
+                              hintText: 'Password',
+                              labelText: 'Password',
+                              prefixIcon: Icon(Icons.lock),
+                              border: OutlineInputBorder(),
                             ),
-                            TextFormField(
-                              controller: textEditingControllerPassword,
-                              keyboardType: TextInputType.visiblePassword,
-                              obscureText: true,
-                              decoration: const InputDecoration(
-                                hintText: 'Password',
-                                labelText: 'Password',
-                                prefixIcon: Icon(Icons.lock),
-                                border: OutlineInputBorder(),
-                              ),
-                              onChanged: (String value) {
-                                password = value;
-                              },
-                              validator: (value) {
-                                return value!.isEmpty ? 'Enter password' : null;
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            RoundButton(
-                                title: 'Sign in',
-                                onPress: () async {
-                                  if (_formKey.currentState!.validate()) {
+                            onChanged: (String value) {
+                              password = value;
+                            },
+                            validator: (value) {
+                              return value!.isEmpty ? 'Enter password' : null;
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          RoundButton(
+                            title: 'Sign in',
+                            onPress: () async {
+                              if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  showSpinner = true;
+                                });
+                                try {
+                                  final user =
+                                      await _auth.signInWithEmailAndPassword(
+                                          email: email.toString().trim(),
+                                          password: password.toString().trim());
+                                  if (user != null) {
+                                    print('Success');
+                                    toastMessages("User seccessfully loged in");
                                     setState(() {
-                                      showSpinner = true;
+                                      showSpinner = false;
                                     });
-                                    try {
-                                      final user = await _auth
-                                          .signInWithEmailAndPassword(
-                                              email: email.toString().trim(),
-                                              password:
-                                                  password.toString().trim());
-                                      if (user != null) {
-                                        print('Success');
-                                        toastMessages(
-                                            "User seccessfully loged in");
-                                        setState(() {
-                                          showSpinner = false;
-                                        });
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-                                      }
-                                    } catch (e) {
-                                      print(e.toString());
-                                      toastMessages(e.toString());
-                                      setState(() {
-                                        showSpinner = false;
-                                      });
-                                    }
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                HomeScreen()));
                                   }
-                                })
-                          ],
-                        )),
-                  )
+                                } catch (e) {
+                                  print(e.toString());
+                                  toastMessages(e.toString());
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             )),
       ),
     );
   }
-
   void toastMessages(String message) {
     Fluttertoast.showToast(
         msg: message.toString(),

@@ -40,6 +40,9 @@ dependencies:
   modal_progress_hud_nsn: ^0.4.0
   fluttertoast: ^8.2.2
   image_picker: ^1.0.4
+  firebase_database: ^10.3.4
+  firebase_storage: ^11.5.1
+  intl: ^0.18.1
   
 
 dev_dependencies:

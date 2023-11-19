@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:voyage_visage/screens/home_screen.dart';
 import 'package:voyage_visage/screens/option_screen.dart';
 import 'package:voyage_visage/screens/splash_screen.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget{
       theme: ThemeData(
         primarySwatch: Colors.deepOrange,
       ),
-      home: SplashScreen(),
+      home: HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
   }
