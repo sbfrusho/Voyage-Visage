@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:voyage_visage/components/round_button.dart';
 import 'package:voyage_visage/screens/add_post.dart';
 import 'package:voyage_visage/screens/read_post.dart';
@@ -83,29 +84,71 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                 ),
                               ),
-                              TextButton(
-                                style: ButtonStyle(
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(
-                                          Colors.blue),
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => ReadPost(
-                                            title: m['pTitle'],
-                                            description: m['pDescription'],
-                                            imageUrl: m['pImage'],
-                                          )));
-                                },
-                                child: Text(
-                                  m['pTitle'],
-                                  style: TextStyle(
-                                      color: Color.fromARGB(255, 7, 60, 106),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 15),
-                                ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextButton(
+                                      style: ButtonStyle(
+                                          foregroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.blue),
+                                          alignment: Alignment.topLeft),
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => ReadPost(
+                                                      title: m['pTitle'],
+                                                      description:
+                                                          m['pDescription'],
+                                                      imageUrl: m['pImage'],
+                                                    )));
+                                      },
+                                      child: Text(
+                                        m['pTitle'],
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromARGB(255, 7, 60, 106),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Text("Clicked");
+                                        Fluttertoast.showToast(
+                                            msg: 'Hello, World!',
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.grey,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                      },
+                                      icon: Icon(Icons.delete),
+                                      alignment: Alignment.center,
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: IconButton(
+                                      onPressed: () {
+                                        Text("Clicked");
+                                        Fluttertoast.showToast(
+                                            msg: 'Hello, World!',
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.CENTER,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor: Colors.grey,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                      },
+                                      icon: Icon(Icons.edit),
+                                      alignment: Alignment.topRight,
+                                    ),
+                                  )
+                                ],
                               ),
                             ],
                           ),
