@@ -93,7 +93,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => ReadPost()));
+                                          builder: (context) => ReadPost(
+                                            title: m['pTitle'],
+                                            description: m['pDescription'],
+                                          )));
                                 },
                                 child: Text(
                                   m['pTitle'],

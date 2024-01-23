@@ -1,39 +1,37 @@
-import 'package:firebase_database/firebase_database.dart';
-import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
-class ReadPost extends StatefulWidget {
-  const ReadPost({super.key});
+class ReadPost extends StatelessWidget {
+  final String title;
+  final String description;
 
-  @override
-  State<ReadPost> createState() => _ReadPostState();
-}
-
-class _ReadPostState extends State<ReadPost> {
-  final dbRef = FirebaseDatabase.instance.ref().child('Posts');
-  
-  Map m = {};
-
-
-  void retrieve(){
-    FirebaseAnimatedList(
-      query: dbRef.child('Post List'),
-      itemBuilder: (context, snapshot, animation, index) {
-        m = Map.from((snapshot.value ?? {}) as Map);
-        return Column();
-      },
-     );
-  }
+  ReadPost({required this.title, required this.description});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: m['pTitle']),
-      // body: Column(
-      //   children: [
-      //     Text(m['pDescription']),
-      //   ],
-      // ),
+      appBar: AppBar(
+        title: Text("Read Post"),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+              ),
+            ),
+            SizedBox(height: 10),
+            Text(
+              description,
+              style: TextStyle(fontSize: 16),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
