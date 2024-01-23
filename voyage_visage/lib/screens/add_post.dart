@@ -172,7 +172,7 @@ class _AddPostState extends State<AddPost> {
                           controller: descriptionController,
                           keyboardType: TextInputType.text,
                           minLines: 1,
-                          maxLines: 5,
+                          maxLines: 30,
                           decoration: InputDecoration(
                             labelText: 'Description',
                             hintText: 'Enter post Description',
