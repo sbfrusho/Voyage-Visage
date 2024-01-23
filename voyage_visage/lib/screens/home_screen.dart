@@ -96,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           builder: (context) => ReadPost(
                                             title: m['pTitle'],
                                             description: m['pDescription'],
+                                            imageUrl: m['pImage'],
                                           )));
                                 },
                                 child: Text(
