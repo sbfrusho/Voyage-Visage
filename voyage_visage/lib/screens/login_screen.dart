@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:voyage_visage/components/round_button.dart';
+import 'package:voyage_visage/screens/forgot_password.dart';
 import 'package:voyage_visage/screens/home_screen.dart';
 import 'package:voyage_visage/screens/splash_screen.dart';
 
@@ -30,6 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Scaffold(
             appBar: AppBar(
               title: Text("Voyage visage"),
+              automaticallyImplyLeading: false,
             ),
             body: Padding(
               padding: const EdgeInsets.all(20),
@@ -86,6 +88,18 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(
                             height: 20,
                           ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0, bottom: 10),
+                            child: InkWell(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ForgotPassword()));
+                              },
+                              child: Align(
+                                child: Text("Forgot Password"),
+                                alignment: Alignment.centerRight,
+                              ),
+                            ),
+                          ),
                           RoundButton(
                             title: 'Sign in',
                             onPress: () async {
@@ -130,6 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
   void toastMessages(String message) {
     Fluttertoast.showToast(
         msg: message.toString(),
