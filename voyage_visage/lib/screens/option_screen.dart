@@ -17,7 +17,7 @@ class _OptionScreenState extends State<OptionScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage('images/loginpage.jpg'),
             fit: BoxFit.cover,

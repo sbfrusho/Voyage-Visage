@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:voyage_visage/components/round_button.dart';
 import 'package:voyage_visage/screens/add_post.dart';
+import 'package:voyage_visage/screens/login_screen.dart';
 import 'package:voyage_visage/screens/read_post.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -18,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // ignore: deprecated_member_use
 
   final dbRef = FirebaseDatabase.instance.ref().child('Posts');
+  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             SizedBox(
               width: 20,
+            ),
+            InkWell(
+              onTap: () {
+                auth.signOut().then((value) {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                });
+              },
+              child: Icon(Icons.logout),
             )
           ],
         ),

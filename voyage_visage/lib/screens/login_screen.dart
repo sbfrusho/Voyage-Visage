@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:voyage_visage/components/round_button.dart';
 import 'package:voyage_visage/screens/home_screen.dart';
+import 'package:voyage_visage/screens/splash_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -107,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                HomeScreen()));
+                                                SplashScreen()));
                                   }
                                 } catch (e) {
                                   print(e.toString());

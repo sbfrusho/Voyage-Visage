@@ -50,7 +50,7 @@ class _SignInState extends State<SignIn> {
                             TextFormField(
                               controller: textEditingControllerEmail,
                               keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 hintText: 'Email',
                                 labelText: 'Email',
                                 prefixIcon: Icon(Icons.email),
