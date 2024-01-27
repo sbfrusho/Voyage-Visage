@@ -21,7 +21,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final dbRef = FirebaseDatabase.instance.ref().child('Posts');
   FirebaseAuth auth = FirebaseAuth.instance;
-
+  TextEditingController searchController = TextEditingController();
+  String search = "";
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -69,103 +70,225 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                TextFormField(
+                  controller: searchController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    labelText: 'Search',
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (String value) {
+                    setState(() {
+                      search = value;
+                    });
+                    
+                  },
+                ),
                 Expanded(
                   child: FirebaseAnimatedList(
                     query: dbRef.child('Post List'),
                     itemBuilder: (context, snapshot, animation, index) {
                       Map m = Map.from((snapshot.value ?? {}) as Map);
-                      return Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              // color: Colors.grey.shade100,
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * .25,
-                                  width: MediaQuery.of(context).size.width * 1,
-                                  child: Image.network(
-                                    m['pImage'],
-                                    fit: BoxFit.cover,
+                      String tempTitle = m['pTitle'];
+                      // print(tempTitle);
+                      // print(search);
+                      if (searchController.text.isEmpty) {
+                        return Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                // color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        .25,
+                                    width:
+                                        MediaQuery.of(context).size.width * 1,
+                                    child: Image.network(
+                                      m['pImage'],
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: TextButton(
-                                      style: ButtonStyle(
-                                          foregroundColor:
-                                              MaterialStateProperty.all<Color>(
-                                                  Colors.blue),
-                                          alignment: Alignment.topLeft),
-                                      onPressed: () {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => ReadPost(
-                                                      title: m['pTitle'],
-                                                      description:
-                                                          m['pDescription'],
-                                                      imageUrl: m['pImage'],
-                                                    )));
-                                      },
-                                      child: Text(
-                                        m['pTitle'],
-                                        style: TextStyle(
-                                            color:
-                                                Color.fromARGB(255, 7, 60, 106),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 15),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.blue),
+                                            alignment: Alignment.topLeft),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ReadPost(
+                                                        title: m['pTitle'],
+                                                        description:
+                                                            m['pDescription'],
+                                                        imageUrl: m['pImage'],
+                                                      )));
+                                        },
+                                        child: Text(
+                                          m['pTitle'],
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 7, 60, 106),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: IconButton(
-                                      onPressed: () {
-                                        Text("Clicked");
-                                        Fluttertoast.showToast(
-                                            msg: 'Hello, World!',
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.CENTER,
-                                            timeInSecForIosWeb: 1,
-                                            backgroundColor: Colors.grey,
-                                            textColor: Colors.white,
-                                            fontSize: 16.0);
-                                      },
-                                      icon: Icon(Icons.delete),
-                                      alignment: Alignment.center,
+                                    Expanded(
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Text("Clicked");
+                                          Fluttertoast.showToast(
+                                              msg: 'Hello, World!',
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.grey,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        },
+                                        icon: Icon(Icons.delete),
+                                        alignment: Alignment.center,
+                                      ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: IconButton(
-                                      onPressed: () {
-                                        Text("Clicked");
-                                        Fluttertoast.showToast(
-                                            msg: 'Hello, World!',
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.CENTER,
-                                            timeInSecForIosWeb: 1,
-                                            backgroundColor: Colors.grey,
-                                            textColor: Colors.white,
-                                            fontSize: 16.0);
-                                      },
-                                      icon: Icon(Icons.edit),
-                                      alignment: Alignment.topRight,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ],
+                                    Expanded(
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Text("Clicked");
+                                          Fluttertoast.showToast(
+                                              msg: 'Hello, World!',
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.grey,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        },
+                                        icon: Icon(Icons.edit),
+                                        alignment: Alignment.topRight,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      } else if (tempTitle
+                          .toLowerCase()
+                          .contains(searchController.text.toString())) {
+                        return Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                // color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        .25,
+                                    width:
+                                        MediaQuery.of(context).size.width * 1,
+                                    child: Image.network(
+                                      m['pImage'],
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                            foregroundColor:
+                                                MaterialStateProperty.all<
+                                                    Color>(Colors.blue),
+                                            alignment: Alignment.topLeft),
+                                        onPressed: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ReadPost(
+                                                        title: m['pTitle'],
+                                                        description:
+                                                            m['pDescription'],
+                                                        imageUrl: m['pImage'],
+                                                      )));
+                                        },
+                                        child: Text(
+                                          m['pTitle'],
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 7, 60, 106),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Text("Clicked");
+                                          Fluttertoast.showToast(
+                                              msg: 'Hello, World!',
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.grey,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        },
+                                        icon: Icon(Icons.delete),
+                                        alignment: Alignment.center,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Text("Clicked");
+                                          Fluttertoast.showToast(
+                                              msg: 'Hello, World!',
+                                              toastLength: Toast.LENGTH_SHORT,
+                                              gravity: ToastGravity.CENTER,
+                                              timeInSecForIosWeb: 1,
+                                              backgroundColor: Colors.grey,
+                                              textColor: Colors.white,
+                                              fontSize: 16.0);
+                                        },
+                                        icon: Icon(Icons.edit),
+                                        alignment: Alignment.topRight,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
                     },
                   ),
                 )
