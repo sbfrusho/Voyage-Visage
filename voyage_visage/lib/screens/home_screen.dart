@@ -23,12 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
   final dbRef = FirebaseDatabase.instance.ref().child('Posts');
   FirebaseAuth auth = FirebaseAuth.instance;
   TextEditingController searchController = TextEditingController();
+  TextEditingController searchControllerUserName = TextEditingController();
   String search = "";
+  String userName = "";
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: WillPopScope(
-        onWillPop: () async{
+        onWillPop: () async {
           SystemNavigator.pop();
           return true;
         },
@@ -89,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       setState(() {
                         search = value;
                       });
-                      
                     },
                   ),
                   Expanded(
@@ -98,6 +99,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, snapshot, animation, index) {
                         Map m = Map.from((snapshot.value ?? {}) as Map);
                         String tempTitle = m['pTitle'];
+                        userName = m['UEmail'];
+                        // print('$userName');
+                        int atIndex = userName.indexOf('@');
+                        // print('$atIndex');
+                        String extractedUserName =
+                            userName.substring(0, atIndex);
+                        // print('$extractedUserName');
+
                         // print(tempTitle);
                         // print(search);
                         if (searchController.text.isEmpty) {
@@ -114,8 +123,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: SizedBox(
-                                      height: MediaQuery.of(context).size.height *
-                                          .25,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .25,
                                       width:
                                           MediaQuery.of(context).size.width * 1,
                                       child: Image.network(
@@ -156,39 +166,22 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                       ),
                                       Expanded(
-                                        child: IconButton(
-                                          onPressed: () {
-                                            Text("Clicked");
-                                            Fluttertoast.showToast(
-                                                msg: 'Hello, World!',
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.grey,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          },
-                                          icon: Icon(Icons.delete),
-                                          alignment: Alignment.center,
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Author: $extractedUserName',
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 7, 60, 106),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       ),
-                                      Expanded(
-                                        child: IconButton(
-                                          onPressed: () {
-                                            Text("Clicked");
-                                            Fluttertoast.showToast(
-                                                msg: 'Hello, World!',
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.grey,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          },
-                                          icon: Icon(Icons.edit),
-                                          alignment: Alignment.topRight,
-                                        ),
-                                      )
                                     ],
                                   ),
                                 ],
@@ -196,8 +189,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         } else if (tempTitle
-                            .toLowerCase()
-                            .contains(searchController.text.toString())) {
+                                .toLowerCase()
+                                .contains(searchController.text.toString())) {
                           return Padding(
                             padding: const EdgeInsets.all(10),
                             child: Container(
@@ -211,8 +204,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ClipRRect(
                                     borderRadius: BorderRadius.circular(10),
                                     child: SizedBox(
-                                      height: MediaQuery.of(context).size.height *
-                                          .25,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              .25,
                                       width:
                                           MediaQuery.of(context).size.width * 1,
                                       child: Image.network(
@@ -245,45 +239,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                           child: Text(
                                             m['pTitle'],
                                             style: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 7, 60, 106),
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 15),
+                                              color: Color.fromARGB(
+                                                  255, 7, 60, 106),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15,
+                                            ),
                                           ),
                                         ),
                                       ),
                                       Expanded(
-                                        child: IconButton(
-                                          onPressed: () {
-                                            Text("Clicked");
-                                            Fluttertoast.showToast(
-                                                msg: 'Hello, World!',
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.grey,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          },
-                                          icon: Icon(Icons.delete),
-                                          alignment: Alignment.center,
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: IconButton(
-                                          onPressed: () {
-                                            Text("Clicked");
-                                            Fluttertoast.showToast(
-                                                msg: 'Hello, World!',
-                                                toastLength: Toast.LENGTH_SHORT,
-                                                gravity: ToastGravity.CENTER,
-                                                timeInSecForIosWeb: 1,
-                                                backgroundColor: Colors.grey,
-                                                textColor: Colors.white,
-                                                fontSize: 16.0);
-                                          },
-                                          icon: Icon(Icons.edit),
-                                          alignment: Alignment.topRight,
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              'Author: $extractedUserName',
+                                              style: TextStyle(
+                                                color: Color.fromARGB(
+                                                    255, 7, 60, 106),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15,
+                                              ),
+                                            ),
+                                          ),
                                         ),
                                       )
                                     ],
