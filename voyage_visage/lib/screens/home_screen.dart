@@ -128,9 +128,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                               .25,
                                       width:
                                           MediaQuery.of(context).size.width * 1,
-                                      child: Image.network(
-                                        m['pImage'],
-                                        fit: BoxFit.cover,
+                                      child: InkWell(
+
+                                        child: Image.network(
+                                          m['pImage'],
+                                          fit: BoxFit.cover,
+                                        ),
+                                        onTap: (){
+                                          Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ReadPost(
+                                                          title: m['pTitle'],
+                                                          description:
+                                                              m['pDescription'],
+                                                          imageUrl: m['pImage'],
+                                                        )));
+                                        },
                                       ),
                                     ),
                                   ),

@@ -56,31 +56,33 @@ class ReadPost extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.network(
-                imageUrl,
-                height: 150, // Adjust the height as needed
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(height: 10),
-              Text(
-                title,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Image.network(
+                  imageUrl,
+                  height: 150, // Adjust the height as needed
+                  width: MediaQuery.of(context).size.width,
+                  fit: BoxFit.cover,
                 ),
-              ),
-              SizedBox(height: 10),
-              Text(
-                description,
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
+                SizedBox(height: 10),
+                Text(
+                  title,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  description,
+                  style: TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
           ),
         ),
       ),
