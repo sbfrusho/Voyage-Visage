@@ -1,3 +1,9 @@
+//this is a login or register option screen
+//user selects one of them to navigate to the home page
+//if user has an account selects login
+//if new user is coming then selects register option
+
+
 import 'package:flutter/material.dart';
 import 'package:voyage_visage/components/round_button.dart';
 import 'package:voyage_visage/screens/login_screen.dart';
@@ -30,6 +36,8 @@ class _OptionScreenState extends State<OptionScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
+                //login button for login form
                 RoundButton(
                     title: "Login",
                     onPress: () {
@@ -41,6 +49,8 @@ class _OptionScreenState extends State<OptionScreen> {
                 SizedBox(
                   height: 30,
                 ),
+
+                //register button for register form
                 RoundButton(
                   title: "Register",
                   onPress: () {

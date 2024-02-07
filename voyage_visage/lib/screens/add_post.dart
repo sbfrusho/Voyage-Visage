@@ -9,8 +9,6 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:voyage_visage/components/round_button.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_database/firebase_database.dart';
-import 'package:voyage_visage/screens/login_screen.dart';
-
 
 class AddPost extends StatefulWidget {
   const AddPost({super.key});
@@ -20,12 +18,11 @@ class AddPost extends StatefulWidget {
 }
 
 class _AddPostState extends State<AddPost> {
-
   bool showSpinner = false;
   // ignore: deprecated_member_use
   final postRef = FirebaseDatabase.instance.reference().child("Posts");
-  firebase_storage.FirebaseStorage storage = firebase_storage.FirebaseStorage.instance;
-
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
 
   File? image;
   final picker = ImagePicker();
@@ -33,31 +30,36 @@ class _AddPostState extends State<AddPost> {
   TextEditingController descriptionController = TextEditingController();
   FirebaseAuth _auth = FirebaseAuth.instance;
 
+  //allowed user to choose image from gallery
   Future getImageGallery() async {
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if(pickedFile != null){
-        image = File(pickedFile.path);
-      }
-      else{
-        print('No image selected');
-      }
-    }); 
+    setState(
+      () {
+        if (pickedFile != null) {
+          image = File(pickedFile.path);
+        } else {
+          print('No image selected');
+        }
+      },
+    );
   }
 
+  //opens camera to take picture
   Future getImageCamera() async {
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
-    setState(() {
-      if(pickedFile != null){
-        image = File(pickedFile.path);
-      }
-      else{
-        print('No image captured');
-      }
-    });
+    setState(
+      () {
+        if (pickedFile != null) {
+          image = File(pickedFile.path);
+        } else {
+          print('No image captured');
+        }
+      },
+    );
   }
 
   void dialog(context) {
+    //a option dialog to choose camera or gallery
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -147,6 +149,8 @@ class _AddPostState extends State<AddPost> {
                   SizedBox(
                     height: 30,
                   ),
+
+                  //takes title of the blog
                   Form(
                     child: Column(
                       children: [
@@ -168,6 +172,8 @@ class _AddPostState extends State<AddPost> {
                         SizedBox(
                           height: 30,
                         ),
+
+                        //takes description of the blog
                         TextFormField(
                           controller: descriptionController,
                           keyboardType: TextInputType.text,
@@ -191,49 +197,67 @@ class _AddPostState extends State<AddPost> {
                   SizedBox(
                     height: 30,
                   ),
-                  RoundButton(title: "Upload", onPress: ()async {
-                    setState(() {
-                      showSpinner = true;
-                    });
-                    try{
-                      int date = DateTime.now().microsecondsSinceEpoch;
-                      firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref('/VOYAGE_VISAGE$date');
-                      UploadTask uploadTask = ref.putFile(image!.absolute);
-                      await Future.value(uploadTask);
-                      var newUrl =await ref.getDownloadURL();
-                      final User? user = _auth.currentUser;
-                      postRef.child('Post List').child(date.toString()).set({
-                        'pId' : date.toString(),
-                        'pImage' : newUrl.toString(),
-                        'pTime' : date.toString(),
-                        'pTitle' : titelController.text.toString(),
-                        'pDescription' : descriptionController.text.toString(),
-                        'UEmail' : user!.email.toString(),
-                        'uId' : user.uid.toString(),
-                        
-                      }).then((value){
-                        toastMessages('Post Published');
-                        setState(() {
-                      showSpinner = false;
-                      Navigator.pop(context);
 
-                    });
-                      }).onError((error, stackTrace) {
-                        toastMessages(error.toString());
-                        setState(() {
-                      showSpinner = false;
+                  //upload button
+                  //when clicked it saves the uplodad content to the
+                  //firebase database
 
-                    });
-                      });
-                    }
-                    catch(e){
+                  RoundButton(
+                    title: "Upload",
+                    onPress: () async {
                       setState(() {
-                      showSpinner = false;
-
-                    });
-                      toastMessages(e.toString());
-                    }
-                  })
+                        showSpinner = true;
+                      });
+                      try {
+                        int date = DateTime.now().microsecondsSinceEpoch;
+                        firebase_storage.Reference ref = firebase_storage
+                            .FirebaseStorage.instance
+                            .ref('/VOYAGE_VISAGE$date');
+                        UploadTask uploadTask = ref.putFile(image!.absolute);
+                        await Future.value(uploadTask);
+                        var newUrl = await ref.getDownloadURL();
+                        final User? user = _auth.currentUser;
+                        postRef.child('Post List').child(date.toString()).set(
+                          {
+                            'pId': date.toString(), //generates a unique id 
+                            'pImage': newUrl.toString(),
+                            'pTime': date.toString(), //generates time
+                            'pTitle': titelController.text.toString(), 
+                            'pDescription':
+                                descriptionController.text.toString(),
+                            'UEmail': user!.email.toString(),
+                            'uId': user.uid.toString(), // generate user id
+                          },
+                        ).then(
+                          (value) {
+                            toastMessages('Post Published');
+                            setState(
+                              () {
+                                showSpinner = false;
+                                Navigator.pop(context);
+                              },
+                            );
+                          },
+                        ).onError(
+                          (error, stackTrace) {
+                            toastMessages(error.toString());
+                            setState(
+                              () {
+                                showSpinner = false;
+                              },
+                            );
+                          },
+                        );
+                      } catch (e) {
+                        setState(
+                          () {
+                            showSpinner = false;
+                          },
+                        );
+                        toastMessages(e.toString());
+                      }
+                    },
+                  )
                 ],
               ),
             ),
@@ -242,6 +266,7 @@ class _AddPostState extends State<AddPost> {
       ),
     );
   }
+
   void toastMessages(String message) {
     Fluttertoast.showToast(
         msg: message.toString(),
@@ -253,6 +278,3 @@ class _AddPostState extends State<AddPost> {
         fontSize: 16.0);
   }
 }
-
-
-

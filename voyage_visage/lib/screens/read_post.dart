@@ -1,48 +1,12 @@
 import 'package:flutter/material.dart';
 
-// class ReadPost extends StatelessWidget {
-//   final String title;
-//   final String description;
-
-//   ReadPost({required this.title, required this.description});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(
-//       child: Scaffold(
-//         appBar: AppBar(
-//           title: Center(child: Text("Read Post")),
-//         ),
-//         body: Padding(
-//           padding: const EdgeInsets.all(20),
-//           child: Column(
-//             crossAxisAlignment: CrossAxisAlignment.start,
-//             children: [
-//               Text(
-//                 title,
-//                 style: TextStyle(
-//                   fontWeight: FontWeight.bold,
-//                   fontSize: 20,
-//                 ),
-//               ),
-//               SizedBox(height: 10),
-//               Text(
-//                 description,
-//                 style: TextStyle(fontSize: 16),
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
 // ReadPost screen
 class ReadPost extends StatelessWidget {
   final String title;
   final String description;
   final String imageUrl;
 
+  //constructor
   ReadPost({
     required this.title,
     required this.description,
@@ -53,9 +17,12 @@ class ReadPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        
         appBar: AppBar(
           title: Text(title),
         ),
+
+        //this module shows the entire blog when a blog is selected in another page
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20),

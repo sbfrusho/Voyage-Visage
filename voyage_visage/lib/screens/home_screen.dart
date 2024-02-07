@@ -1,11 +1,13 @@
+//This is the main screen of the app
+//It displays a list of blogs with a cover picture
+//uploaded by different users
+//this screen also has search bar
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:voyage_visage/components/round_button.dart';
 import 'package:voyage_visage/screens/add_post.dart';
 import 'package:voyage_visage/screens/login_screen.dart';
 import 'package:voyage_visage/screens/read_post.dart';
@@ -20,10 +22,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // ignore: deprecated_member_use
 
-  final dbRef = FirebaseDatabase.instance.ref().child('Posts');
-  FirebaseAuth auth = FirebaseAuth.instance;
-  TextEditingController searchController = TextEditingController();
-  TextEditingController searchControllerUserName = TextEditingController();
+  final dbRef =
+      FirebaseDatabase.instance.ref().child('Posts'); // database reference
+  FirebaseAuth auth = FirebaseAuth.instance; // firebase authentication
+  TextEditingController searchController =
+      TextEditingController(); // search handler
+  // TextEditingController searchControllerUserName = TextEditingController(); //
   String search = "";
   String userName = "";
   @override
@@ -42,6 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
             centerTitle: true,
             automaticallyImplyLeading: false,
             actions: [
+              // a add(+) button is added to the app bar
+              //when user clicks on the button a upload
+              //screen appears with necessary fields
               InkWell(
                 child: Icon(Icons.add),
                 onTap: () {
@@ -52,6 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 width: 20,
               ),
+
+              //a signout button is also added to the app bar
+              //when user clicks on the button it performs
+              //an immediate log out function
               InkWell(
                 onTap: () {
                   auth.signOut().then((value) {
@@ -63,6 +74,11 @@ class _HomeScreenState extends State<HomeScreen> {
               )
             ],
           ),
+
+          //this module contains the main screen of the app
+          //it contains a list of blogs with cover picture
+          //title and author name of the blog also appears
+
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -78,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  //search function module
                   TextFormField(
                     controller: searchController,
                     keyboardType: TextInputType.emailAddress,
@@ -129,22 +146,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                       width:
                                           MediaQuery.of(context).size.width * 1,
                                       child: InkWell(
-
                                         child: Image.network(
                                           m['pImage'],
                                           fit: BoxFit.cover,
                                         ),
-                                        onTap: (){
+                                        onTap: () {
+                                          //when user clicks on the image
+                                            //this module takes him to the read post 
+                                            //screen
                                           Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ReadPost(
-                                                          title: m['pTitle'],
-                                                          description:
-                                                              m['pDescription'],
-                                                          imageUrl: m['pImage'],
-                                                        )));
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => ReadPost(
+                                                title: m['pTitle'],
+                                                description: m['pDescription'],
+                                                imageUrl: m['pImage'],
+                                              ),
+                                            ),
+                                          );
                                         },
                                       ),
                                     ),
@@ -152,6 +171,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Row(
                                     children: [
                                       Expanded(
+                                        //when user clicks on the title
+                                            //this module takes him to the read post 
+                                            //screen
                                         child: TextButton(
                                           style: ButtonStyle(
                                               foregroundColor:
@@ -180,6 +202,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       ),
+
+                                      //this module shows the name of the author
                                       Expanded(
                                         child: Align(
                                           alignment: Alignment.bottomRight,
@@ -204,8 +228,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           );
                         } else if (tempTitle
-                                .toLowerCase()
-                                .contains(searchController.text.toString())) {
+                            .toLowerCase()
+                            .contains(searchController.text.toString())) {
                           return Padding(
                             padding: const EdgeInsets.all(10),
                             child: Container(

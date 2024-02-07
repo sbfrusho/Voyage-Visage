@@ -16,15 +16,24 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool showSpinner = false;
-  FirebaseAuth _auth = FirebaseAuth.instance;
-  final _formKey = GlobalKey<FormState>();
-  TextEditingController textEditingControllerEmail = TextEditingController();
-  TextEditingController textEditingControllerPassword = TextEditingController();
+  FirebaseAuth _auth = FirebaseAuth.instance; //firebase authentication
+
+
+
+  final _formKey = GlobalKey<FormState>();// creats a global key object
+                                          //used to uniquley identify a for widget
+                        
+  TextEditingController textEditingControllerEmail = TextEditingController(); //email handler
+  TextEditingController textEditingControllerPassword = TextEditingController(); //password handler
 
   String email = "", password = "";
 
   @override
   Widget build(BuildContext context) {
+    // ModalProgressHUD is a widget provided by the modal_progress_hud_nsn package in Flutter. 
+    //Its main function is to display a modal progress indicator (e.g., a loading spinner) 
+    //while some asynchronous operation is in progress. 
+    //This helps to provide visual feedback to the user that their action is being processed.
     return ModalProgressHUD(
       inAsyncCall: showSpinner,
       child: SafeArea(
@@ -49,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       key: _formKey,
                       child: Column(
                         children: [
+                          //emai field
                           TextFormField(
                             controller: textEditingControllerEmail,
                             keyboardType: TextInputType.emailAddress,
@@ -68,6 +78,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           const SizedBox(
                             height: 20,
                           ),
+
+                          //password field
                           TextFormField(
                             controller: textEditingControllerPassword,
                             keyboardType: TextInputType.visiblePassword,
@@ -100,6 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
+
+                          //sign in button
                           RoundButton(
                             title: 'Sign in',
                             onPress: () async {
@@ -144,6 +158,11 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
+  //a toast message is being shown when 
+  //user successfully login to the app
+  //or make an unsuccessful attempt
 
   void toastMessages(String message) {
     Fluttertoast.showToast(
